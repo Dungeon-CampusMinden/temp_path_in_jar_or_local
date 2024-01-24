@@ -19,6 +19,9 @@ public class Main {
             myPath = Paths.get(uri);
         }
 
-        Files.walk(myPath, 2).forEach(System.out::println);
+        Files.walk(myPath, 2)
+            .filter(Files::isRegularFile)
+            .filter(p -> p.toString().endsWith(".txt"))
+            .forEach(System.out::println);
     }
 }
