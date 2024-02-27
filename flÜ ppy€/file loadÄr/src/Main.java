@@ -1,27 +1,42 @@
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.*;
-import java.util.Collections;
+import foobar.FileUtil;
 
 public class Main {
-    public static void main(String... args) throws URISyntaxException, IOException {
-        String folder = "wuppie";
-        URI uri = Main.class.getResource(folder).toURI();
-
-        Path myPath;
-        if (uri.getScheme().equals("jar")) {
-            // inside JAR
-            FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
-            myPath = fileSystem.getPath(folder);
-        } else {
-            // normal filesystem, e.g. in IDE
-            myPath = Paths.get(uri);
+    public static void main(String... args) {
+        // toplevel folder
+        try {
+            System.out.println("\n'<wuppie>'");
+            FileUtil.openResources("wuppie");
+            System.out.println("'</wuppie>'\n\n");
+        } catch (Exception e) {
+            System.err.println("could not read 'wuppie'");
         }
 
-        Files.walk(myPath, 2)
-            .filter(Files::isRegularFile)
-            .filter(p -> p.toString().endsWith(".txt"))
-            .forEach(System.out::println);
+        // file (complete relative path)
+        try {
+            System.out.println("\n'<wuppie/fluppie.txt>'");
+            FileUtil.openResources("wuppie/fluppie.txt");
+            System.out.println("'</wuppie/fluppie.txt>'\n\n");
+        } catch (Exception e) {
+            System.err.println("could not read 'wuppie/fluppie.txt'");
+        }
+
+        // folder structure (directly reachable from resources root)
+        try {
+            System.out.println("\n'<wuppie/fluppie>'");
+            FileUtil.openResources("wuppie/fluppie");
+            System.out.println("'</wuppie/fluppie>'\n\n");
+        } catch (Exception e) {
+            System.err.println("could not read 'wuppie/fluppie'");
+        }
+
+        // folder inside resources (path not valid)
+        try {
+            System.out.println("\n'<fluppie>'");
+            FileUtil.openResources("fluppie");
+            System.out.println("'</fluppie>'\n\n");
+        } catch (Exception e) {
+            System.err.println("could not read 'fluppie'");
+        }
+
     }
 }

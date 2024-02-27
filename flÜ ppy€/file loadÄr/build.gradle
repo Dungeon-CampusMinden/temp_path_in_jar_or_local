@@ -13,12 +13,19 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    // https://mvnrepository.com/artifact/junit/junit
+    testImplementation "junit:junit:4.13.2"
+}
+
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
 sourceSets.main.java.srcDirs = ['src/']
 sourceSets.main.resources.srcDirs = ['resources/']
+sourceSets.test.java.srcDirs = ['test/']
+sourceSets.test.resources.srcDirs = ['test_resources/']
 
 project.ext.mainClassName = 'Main'
-project.ext.assetsDir = new File('resources/')
 
 application {
     mainClass = project.mainClassName
